@@ -11,12 +11,12 @@ import (
 )
 
 const (
-	randomNumberEndpointMaxRequestsPerTimePeriod        = 3
+	sendEndpointMaxRequestsPerTimePeriod                = 3
 	internalServerErrorEndpointMaxRequestsPerTimePeriod = 3
 )
 
 const (
-	randomNumberEndpointMaxRequestsTimePeriod        = 5
+	sendEndpointMaxRequestsTimePeriod                = 5
 	internalServerErrorEndpointMaxRequestsTimePeriod = 5
 )
 
@@ -117,19 +117,19 @@ func requestThrottlingConfig(req http.Request) EndpointThrottlingConfig {
 	switch req.URL.Path {
 	case internalServerErrorRoute:
 		etc = createInternalServerErrorThrottlingConfig()
-	case randomNumberRoute:
-		etc = createRandomNumberEndpointThrottlingConfig()
+	case sendRoute:
+		etc = createSendEndpointThrottlingConfig()
 	}
 
 	return etc
 }
 
-func createRandomNumberEndpointThrottlingConfig() EndpointThrottlingConfig {
+func createSendEndpointThrottlingConfig() EndpointThrottlingConfig {
 	return EndpointThrottlingConfig{
-		Endpoint:      randomNumberRoute,
+		Endpoint:      sendRoute,
 		Method:        http.MethodGet,
-		MaxRequests:   randomNumberEndpointMaxRequestsPerTimePeriod,
-		TimePeriodSec: randomNumberEndpointMaxRequestsTimePeriod,
+		MaxRequests:   sendEndpointMaxRequestsPerTimePeriod,
+		TimePeriodSec: sendEndpointMaxRequestsTimePeriod,
 	}
 }
 

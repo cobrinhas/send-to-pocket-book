@@ -1,6 +1,6 @@
 package http
 
 const (
-	randomNumberRoute        = "/randomNumber"
+	sendRoute                = "/send"
 	internalServerErrorRoute = "/internalServerError"
 )
