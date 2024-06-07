@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/mail"
 	"os"
+	"strings"
 
 	"github.com/cobrinhas/send-to-pocket-book/proxy-server/internal/logging"
 	sender "github.com/cobrinhas/send-to-pocket-book/proxy-server/internal/mail"
@@ -34,6 +35,10 @@ func SendToPocketBook(ectx echo.Context) error {
 	if _, err := mail.ParseAddress(request.Email); err != nil {
 		fmt.Printf("err: %v\n", err)
 
+		return BadRequest(ectx)
+	}
+
+	if !strings.HasSuffix(request.Email, "@pbsync.com") {
 		return BadRequest(ectx)
 	}
 
