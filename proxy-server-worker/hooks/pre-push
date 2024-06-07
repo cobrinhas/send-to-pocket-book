@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+npm run lint
+
+if [[ $? != 0 ]]; then
+    npm run format
+
+    exit 1
+fi
+
+exit 0
