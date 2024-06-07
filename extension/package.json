@@ -1,13 +1,15 @@
 {
   "devDependencies": {
-    "extension": "latest"
+    "autoprefixer": "^10.4.19",
+    "extension": "latest",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4"
   },
   "scripts": {
     "dev": "extension dev",
     "start": "extension start",
     "build": "extension build"
   },
-  "dependencies": {},
   "name": "send-to-pocket-book",
   "private": true,
   "version": "0.0.0"
