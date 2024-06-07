@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html class="w-96" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Send To PocketBook</title>
+    <link rel="stylesheet" href="./globals.css" media="screen" />
+
+    <script src="./index.js"></script>
+</head>
+
+<body>
+    <div class="mx-auto flex w-full max-w-sm flex-col gap-6 p-6">
+        <div class="flex flex-col items-center">
+            <h1 class="text-3xl font-semibold">Send To PocketBook</h1>
+            <p class="text-sm text-center">
+                You're one click away of saving this document in your PocketBook using Send-To-PocketBook!
+            </p>
+        </div>
+        <div class="form-group">
+            <div class="form-field">
+                <label class="form-label">Title</label>
+
+                <input id="document-title" placeholder="Loading..." type="text"
+                    class="input input-ghost-primary max-w-full" />
+            </div>
+
+            <div class="divider divider-horizontal">
+                <div class="popover popover-hover">
+                    <label class="popover-trigger">Proxy Server</label>
+                    <div class="popover-content">
+                        <div class="p-4 text-sm text-wrap overflow-x-clip">
+                            A proxy server receives your document and sends it via e-mail to your @pb.sync e-mail.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label class="form-label">URL</label>
+
+                <input id="proxy-server-url" placeholder="https://proxy-server-worker.cloudflare.com" type="url"
+                    class="input input-ghost-primary max-w-full" value="https://proxy-server-worker.cloudflare.com" />
+                <label class="form-label">
+                    <a class="form-label-alt" href="https://github.com/cobrinhas/send-to-pocket-book#setup-proxy-server"
+                        target="_blank">Want to roll your own proxy-server?</a>
+                </label>
+            </div>
+
+            <div class="form-field">
+                <label class="form-label">PBSync E-mail</label>
+
+                <input id="pbsync-email" placeholder="ruth.saint91@pbsync.com" type="email"
+                    class="input input-ghost-primary max-w-full" />
+            </div>
+
+            <div class="form-field">
+                <div id="form-status" class="hidden form-control justify-center pt-5" hidden>
+                    <div id="spinner" class="spinner-circle" hidden></div>
+                    <p id="status" class="text-sm text-center" hidden></p>
+                </div>
+            </div>
+
+            <div class="form-field pt-5">
+                <div class="form-control justify-between">
+                    <button id="send-button" type="button" class="btn btn-primary w-full">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
