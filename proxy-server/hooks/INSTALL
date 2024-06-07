@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+script_file_name=$(basename $0)
+script_dir_path=$(dirname $(realpath $0))
+git_hooks_dir_path="$script_dir_path/../.git/hooks"
+
+dir_files=$(ls $script_dir_path)
+
+if [[ ! -d $git_hooks_dir_path ]]
+then
+    mkdir $git_hooks_dir_path
+fi
+
+for file in ${dir_files[@]}; do
+    file_path="$script_dir_path/$file"
+
+    if [[ -f $file_path && "$file" != "$script_file_name" ]]
+    then
+        cp $file_path $git_hooks_dir_path
+    fi
+done
