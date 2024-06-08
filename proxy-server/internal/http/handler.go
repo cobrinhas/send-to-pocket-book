@@ -78,7 +78,7 @@ func SendToPocketBook(ectx echo.Context) error {
 	}
 
 	s := sender.NewSender()
-	m := sender.NewMessage("Send to PocketBook", "")
+	m := sender.NewMessage("", "")
 	m.To = []string{request.Email}
 	m.AttachFile(filepath)
 

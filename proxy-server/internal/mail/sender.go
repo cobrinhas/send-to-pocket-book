@@ -70,7 +70,9 @@ func (m *Message) AttachFile(src string) error {
 func (m *Message) ToBytes() []byte {
 	buf := bytes.NewBuffer(nil)
 	withAttachments := len(m.Attachments) > 0
+	buf.WriteString("MIME-Version: 1.0\n")
 	buf.WriteString(fmt.Sprintf("Subject: %s\n", m.Subject))
+	buf.WriteString(fmt.Sprintf("From: \"Send-To-PocketBook\" <%s>\n", username))
 	buf.WriteString(fmt.Sprintf("To: %s\n", strings.Join(m.To, ",")))
 	if len(m.CC) > 0 {
 		buf.WriteString(fmt.Sprintf("Cc: %s\n", strings.Join(m.CC, ",")))
@@ -80,7 +82,6 @@ func (m *Message) ToBytes() []byte {
 		buf.WriteString(fmt.Sprintf("Bcc: %s\n", strings.Join(m.BCC, ",")))
 	}
 
-	buf.WriteString("MIME-Version: 1.0\n")
 	writer := multipart.NewWriter(buf)
 	boundary := writer.Boundary()
 	if withAttachments {
@@ -94,9 +95,9 @@ func (m *Message) ToBytes() []byte {
 	if withAttachments {
 		for k, v := range m.Attachments {
 			buf.WriteString(fmt.Sprintf("\n\n--%s\n", boundary))
-			buf.WriteString(fmt.Sprintf("Content-Type: %s\n", http.DetectContentType(v)))
+			buf.WriteString(fmt.Sprintf("Content-Type: %s; name=\"%s\"\n", http.DetectContentType(v), k))
+			buf.WriteString(fmt.Sprintf("Content-Disposition: attachment; filename=\"%s\"\n", k))
 			buf.WriteString("Content-Transfer-Encoding: base64\n")
-			buf.WriteString(fmt.Sprintf("Content-Disposition: attachment; filename=%s\n", k))
 
 			b := make([]byte, base64.StdEncoding.EncodedLen(len(v)))
 			base64.StdEncoding.Encode(b, v)

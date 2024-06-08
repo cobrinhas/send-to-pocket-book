@@ -74,7 +74,7 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         saveProxySettings(proxyServerUrl, pbsyncEmail);
 
         try {
-            const response = await window.fetch(proxyServerUrl, { body: JSON.stringify({ title: title, email: pbsyncEmail, url: url }), method: 'POST' });
+            const response = await window.fetch(proxyServerUrl, { body: JSON.stringify({ title: title, email: pbsyncEmail, url: url }), method: 'POST', mode: 'no-cors' });
 
             if (response.status === 202) {
                 showStatus('The document has been sent to your pocket book! If this is the first time using the extension, check your inbox to add the proxy e-mail to your whitelist.', 'text-success');
