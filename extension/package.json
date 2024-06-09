@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "extension dev",
     "start": "extension start",
-    "build": "extension build"
+    "build": "extension build -b all"
   },
   "name": "send-to-pocket-book",
   "private": true,
