@@ -150,3 +150,6 @@ $RECYCLE.BIN/
 .local-git-credentials
 
 proxy-server
+
+credentials.json
+token.json

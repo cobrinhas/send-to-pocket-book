@@ -51,7 +51,7 @@ func SendToPocketBook(ectx echo.Context) error {
 	}
 
 	contentType := res.Header.Get("content-type")
-	fileExt, err := contentTypeToFileExtension(contentType)
+	fileExt, err := contentTypeToFileExtension(strings.Split(contentType, ";")[0])
 
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
@@ -77,12 +77,7 @@ func SendToPocketBook(ectx echo.Context) error {
 		return BadRequest(ectx)
 	}
 
-	s := sender.NewSender()
-	m := sender.NewMessage("", "")
-	m.To = []string{request.Email}
-	m.AttachFile(filepath)
-
-	err = s.Send(m)
+	err = sender.Send(request.Email, filepath)
 
 	if err != nil {
 		fmt.Printf("err: %v\n", err)

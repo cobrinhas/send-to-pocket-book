@@ -15,8 +15,5 @@ logging_fp=
 # Security token to validate that requests are from white-listed sources
 security_token=
 
-# SMTP configuration
-smtp_host=
-smtp_username=
-smtp_password=
-smtp_port=
+# GMail configuration
+gmail_sender_email=
