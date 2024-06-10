@@ -38,7 +38,7 @@ func SendToPocketBook(ectx echo.Context) error {
 	}
 
 	if _, err := mail.ParseAddress(breq.Email); err != nil {
-		fmt.Printf("err: %v\n", err)
+		logging.Aspirador.Error(fmt.Sprintf("Failed to parse mail address: %s", err))
 
 		return BadRequest(ectx, InvalidEmailResponse())
 	}
@@ -50,7 +50,7 @@ func SendToPocketBook(ectx echo.Context) error {
 	res, err := http.Head(breq.Url)
 
 	if err != nil {
-		fmt.Printf("err: %v\n", err)
+		logging.Aspirador.Error(fmt.Sprintf("Failed to HEAD url: %s", err))
 
 		return BadRequest(ectx, NotConnectableUrlResponse())
 	}
@@ -59,7 +59,7 @@ func SendToPocketBook(ectx echo.Context) error {
 	fileExt, err := contentTypeToFileExtension(strings.Split(contentType, ";")[0])
 
 	if err != nil {
-		fmt.Printf("err: %v\n", err)
+		logging.Aspirador.Error(fmt.Sprintf("Failed to recognize content type as allowed file extension: %s", err))
 
 		return BadRequest(ectx, UnsupportedDocumentResponse())
 	}
@@ -67,7 +67,7 @@ func SendToPocketBook(ectx echo.Context) error {
 	tmpfile, err := os.CreateTemp("", "")
 
 	if err != nil {
-		fmt.Printf("err: %v\n", err)
+		logging.Aspirador.Error(fmt.Sprintf("Failed to create temp file: %s", err))
 
 		return InternalServerError(ectx)
 	}
@@ -79,7 +79,7 @@ func SendToPocketBook(ectx echo.Context) error {
 		err = downloadFile(filepath, breq.Url)
 
 		if err != nil {
-			fmt.Printf("err: %v\n", err)
+			logging.Aspirador.Error(fmt.Sprintf("Failed to download file from url %s: %s", breq.Url, err))
 
 			return
 		}
@@ -87,7 +87,7 @@ func SendToPocketBook(ectx echo.Context) error {
 		err = sender.Send(breq.Email, filepath)
 
 		if err != nil {
-			fmt.Printf("err: %v\n", err)
+			logging.Aspirador.Error(fmt.Sprintf("Failed to send email: %s", err))
 
 			return
 		}
@@ -116,10 +116,18 @@ func contentTypeToFileExtension(contentType string) (string, error) {
 	switch contentType {
 	case "application/pdf":
 		ext = ".pdf"
+	case "text/htm":
+		ext = ".html"
 	case "text/html":
 		ext = ".html"
 	case "text/plain":
 		ext = ".txt"
+	case "application/epub+zip":
+		ext = ".epub"
+	case "application/msword":
+		ext = ".doc"
+	case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+		ext = ".docx"
 	default:
 		err = fmt.Errorf("do not recognize %s as file extension", contentType)
 	}

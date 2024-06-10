@@ -11,6 +11,7 @@ import (
 	"os"
 	fp "path/filepath"
 
+	"github.com/cobrinhas/send-to-pocket-book/proxy-server/internal/logging"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/gmail/v1"
@@ -101,7 +102,7 @@ func Send(email, filepath string) error {
 		return err
 	}
 
-	fmt.Println("Email sent successfully!")
+	logging.Aspirador.Info(fmt.Sprintf("Email sent to %s successfuly", email))
 
 	return nil
 }
