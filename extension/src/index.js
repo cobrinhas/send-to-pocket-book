@@ -76,10 +76,10 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         try {
             const response = await window.fetch(proxyServerUrl, { body: JSON.stringify({ title: title, email: pbsyncEmail, url: url }), method: 'POST', mode: 'no-cors' });
 
-            if (response.status === 202) {
-                showStatus('The document has been sent to your pocket book! If this is the first time using the extension, check your inbox to add the proxy e-mail to your whitelist.', 'text-success');
+            if (showStatus > 399) {
+                showStatus(await mapResponseToStatus(response), 'text-error');
             } else {
-                showStatus('The document has been received but no further action has been taken yet.', 'text-warning');
+                showStatus(await mapResponseToStatus(response));
             }
         } catch (e) {
             showStatus('Proxy Server is not reachable.', 'text-error');
@@ -88,3 +88,32 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         hideLoadingSpinner();
     }
 });
+
+/**
+ * @param {Response} response 
+ * @returns {Promise<string>}
+ */
+async function mapResponseToStatus(response) {
+    const sc = response.status;
+
+    switch (sc) {
+        case 202:
+            return "The document has been sent to your pocket book! If this is the first time using the extension, check your inbox to add the proxy e-mail to your whitelist."
+        case 400:
+            return await (async () => {
+                const body = await response.json();
+
+                return InvalidRequestFieldStatus[`${body.field}.${body.reason}`] ?? "Proxy Server is having issues handling your request"
+            })()
+        case 500:
+        default:
+            return "Proxy Server is having issues handling your request"
+    }
+}
+
+const InvalidRequestFieldStatus = {
+    "email.invalid": "Your e-mail is not recognizable.",
+    "email.unsupported-domain": "Your e-mail is not a supported @pbsync.com account.",
+    "url.not-connectable": "Could not connect to the document URL... Is it behind a private network?",
+    "url.unsupported-document": "Unsupported document.",
+}
