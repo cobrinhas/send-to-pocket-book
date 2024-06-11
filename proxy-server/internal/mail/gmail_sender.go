@@ -41,7 +41,7 @@ func Send(email, filepath string) error {
 		}
 
 		// If modifying these scopes, delete your previously saved token.json.
-		config, err := google.ConfigFromJSON(b, gmail.GmailReadonlyScope, gmail.GmailSendScope)
+		config, err := google.ConfigFromJSON(b, gmail.GmailSendScope)
 		if err != nil {
 			log.Printf("Unable to parse client secret file to config: %v", err)
 			return err
