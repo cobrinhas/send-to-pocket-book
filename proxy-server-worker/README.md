@@ -20,7 +20,8 @@ To properly run this service, you will need to a set up a `.dev.vars` file. Star
 
 |  Variable Name   | Variable Description |
 | :--------------: | :------------------- |
-| `AWESOME_SECRET` | Awesome Secret.      |
+| `PROXY_SERVER_URL` | This is the URL of the proxy server that sends the e-mails.      |
+| `PROXY_SERVER_SECURITY_TOKEN` | This is the security token set on the proxy-server to guard API usage.      |
 
 Run the local server via `npm run start`
 
