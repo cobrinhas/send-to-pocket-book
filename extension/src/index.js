@@ -74,7 +74,7 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         saveProxySettings(proxyServerUrl, pbsyncEmail);
 
         try {
-            const response = await window.fetch(proxyServerUrl, { body: JSON.stringify({ title: title, email: pbsyncEmail, url: url }), method: 'POST', mode: 'no-cors' });
+            const response = await window.fetch(proxyServerUrl, { body: JSON.stringify({ title: title, email: pbsyncEmail, url: url }), method: 'POST', mode: 'cors' });
 
             if (showStatus > 399) {
                 showStatus(await mapResponseToStatus(response), 'text-error');
