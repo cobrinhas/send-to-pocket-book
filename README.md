@@ -10,7 +10,7 @@ The value proposition of this extension is allowing users to use this functional
 
 ## How does it look like?
 
-tbd.
+[![Demo video](https://img.youtube.com/vi/QQcWP4-YKYM/maxresdefault.jpg)](https://youtu.be/QQcWP4-YKYM)
 
 ## How do I install it?
 
