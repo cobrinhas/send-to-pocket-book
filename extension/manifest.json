@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "version": "1.0",
-  "name": "send-to-pocket-book",
-  "description": "Save documents while browsing in your PocketBook by using the Send-To-PocketBook functionality.",
+  "name": "Send to PocketBook",
+  "description": "Save documents in your PocketBook while browsing, by using the Send-To-PocketBook functionality.",
   "icons": {
     "16": "images/icons/icon_16.png",
     "48": "images/icons/icon_48.png"
