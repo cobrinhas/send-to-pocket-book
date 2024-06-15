@@ -38,6 +38,12 @@ export default {
 			return handleOptions(request);
 		}
 
+		let ip = request.headers.get("X-Forwarded-For");
+
+		if (!ip) {
+			ip = request.headers.get("Cf-Connecting-Ip");
+		}
+
 		let response = await fetch(`${config.proxyServerUrl}/send`, {
 			body: request.body,
 			method: 'POST',
@@ -45,7 +51,8 @@ export default {
 				...request.headers,
 				'content-type': 'application/json',
 				'x-sec-token': config.proxyServerSecurityToken,
-				'origin': new URL(`${config.proxyServerUrl}/send`).origin
+				'origin': new URL(`${config.proxyServerUrl}/send`).origin,
+				'X-Forwarded-For': `${ip}`
 			}
 		});
 
