@@ -67,8 +67,8 @@ func (te *ThrottlingEngine) StartThrottlingEngineCleanUp() {
 	go te.cleanupThrottlingEngine()
 }
 
-func (te *ThrottlingEngine) CanAllowRequest(req http.Request) bool {
-	id := requestId(req)
+func (te *ThrottlingEngine) CanAllowRequest(req http.Request, ectx echo.Context) bool {
+	id := requestId(req, ectx)
 
 	etl, ok := te.Visitors[id]
 
@@ -102,10 +102,8 @@ func (te *ThrottlingEngine) cleanupThrottlingEngine() {
 	}
 }
 
-func requestId(req http.Request) string {
-	ipextr := echo.ExtractIPDirect()
-	ip := ipextr(&req)
-
+func requestId(req http.Request, ectx echo.Context) string {
+	ip := ectx.RealIP()
 	id := fmt.Sprintf("%s%s", ip, req.Method)
 
 	return id
