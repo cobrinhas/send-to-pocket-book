@@ -84,6 +84,8 @@ func SendToPocketBook(ectx echo.Context) error {
 			return
 		}
 
+		defer os.Remove(filepath)
+
 		err = sender.Send(breq.Email, filepath)
 
 		if err != nil {
@@ -91,8 +93,6 @@ func SendToPocketBook(ectx echo.Context) error {
 
 			return
 		}
-
-		os.Remove(filepath)
 	}()
 
 	return Accepted(ectx)
