@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+docker_tag=proxy-server:latest
+
+export $(grep -v '^#' .env | xargs)
+
+docker run -d \
+    -p $server_port:$server_port \
+    --mount "type=bind,src=./credentials.json,dst=/app/credentials.json" \
+    --mount "type=bind,src=./token.json,dst=/app/token.json" \
+    --env-file .env \
+    -t $docker_tag
