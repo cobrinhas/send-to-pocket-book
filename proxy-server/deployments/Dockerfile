@@ -16,5 +16,6 @@ WORKDIR /app
 
 COPY --from=builder /app /app/
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /tmp/proxy-server /tmp/
 
 CMD [ "/app/proxy-server" ]
